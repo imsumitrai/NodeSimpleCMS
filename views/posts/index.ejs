@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+        <% include ../partial/header %>
+  </head>
+  <body>
+        <% include ../partial/navbar %>
+      <div class="container">
+          <div class="row">
+              <div class="col-sm-3">
+
+              </div>
+              <div class="col-sm-6">
+                  <br>
+                  <div class="row">
+                      <a href="posts/new" class="btn btn-primary btn-xs">New Post</a>
+                  </div>
+                  <br>
+                  
+                  <table>
+                      <thead>
+                          <tr>
+                              <th>Title</th>
+                              <th>Author</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                        <% for(var i=0; i< posts.length; i++){ %>
+                            <tr>
+                                <td><a href="post/<%= posts[i].slug %>"><%= posts[i].title %> </a></td>
+                                <% if(auth == posts[i].author._id.toString()) { %>
+                                    <td><%= posts[i].author.name %></td>
+                                <% }else{  %>
+                                    <td><a href="/user/<%= posts[i].author._id %>"><%= posts[i].author.name %></a></td>
+                                <% } %>
+                            </tr>
+                        <% } %>
+                      </tbody>
+                  </table>
+              </div>
+              <div class="col-sm-3">
+
+              </div>
+          </div>
+      </div>
+      
+      <% include ../partial/footer %>
+  </body>
+</html>
