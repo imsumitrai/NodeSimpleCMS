@@ -25,16 +25,31 @@
                             <% } %>
                             <input type="hidden" name="_csrf" value="<%= csrftoken %>">
                             <div class="form-group">
+                                <label>Parent</label>
+                                <select name="parent" class="form-control">
+                                    <option value="">--None--</option>
+                                    <% for(var i=0; i< categories.length; i++){ %>
+                                        <option value="<%= categories[i]._id %>"><%= categories[i].title %></option>
+                                        <%if (categories[i].children){
+                                          for(var j=0; j< categories[i].children.length; j++){ %>
+                                            <option value="<%= categories[i].children[j]._id %>"> |-- <%= categories[i].children[j].title %></option>
+                                            <%if (categories[i].children[j].children){
+                                                for(var k=0; k< categories[i].children[j].children.length; k++){ %>
+                                                    <option value="<%= categories[i].children[j].children[k]._id %>" disabled> |-- |-- <%= categories[i].children[j].children[k].title %></option>
+                                                <% }
+                                            } 
+                                          }
+                                        } 
+                                    } %>
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label>Title</label>
                                 <input type="name" name="title" class="form-control" placeholder="Title" value="">
                             </div>
                             <div class="form-group">
                                 <label>Slug</label>
                                 <input type="name" name="slug" class="form-control" placeholder="Slug" value="">
-                            </div>
-                            <div class="form-group">
-                                <label>Description</label>
-                                <textarea name="description" class="form-control" placeholder="Description"></textarea>
                             </div>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>

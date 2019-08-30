@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+        <% include ../partial/header %>
+  </head>
+  <body>
+        <% include ../partial/navbar %>
+      <div class="container">
+          <div class="row">
+              <div class="col-sm-3">
+
+              </div>
+              <div class="col-sm-6">
+                  <br>
+                  <div class="row">
+                        <a href="categories" class="btn btn-sm"><i class="fa fa-home">&nbsp;</i></a>
+                        
+                        <div class="ml-auto">
+                            <a href="categories/new" class="btn btn-primary btn-sm">New Category</a>
+                        </div>
+                      <br>
+                  </div>
+                  <br>
+                  
+                    <%if(messages.error){ %>
+                    <div class="alert alert-danger" role="alert">
+                        <%= messages.error %>
+                    </div>
+                    <% } %>
+                    <%if(messages.status){ %>
+                        <div class="alert alert-success" role="alert">
+                            <%= messages.status %>
+                        </div>
+                    <% } %>
+                  <table>
+                  <% for(var i=0; i< categories.length; i++){ %>
+                    <tr><td><b><a href="category/<%= categories[i].slug %>"><%= categories[i].title %></a></b>
+                        <form style="display: inline-block;" action="category/<%= categories[i]._id %>/delete" method="POST">
+                                <input type="hidden" name="_csrf" value="<%= csrftoken %>">
+                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash">&nbsp;</i></button>
+                        </form>
+                    </td></tr>
+                    <%if (categories[i].children){
+                      for(var j=0; j< categories[i].children.length; j++){ %>
+                        <tr><td> |-- <b><a href="category/<%= categories[i].children[j].slug %>"><%= categories[i].children[j].title %></a></b> 
+                            <form style="display: inline-block;" action="category/<%= categories[i].children[j]._id %>/delete" method="POST">
+                                    <input type="hidden" name="_csrf" value="<%= csrftoken %>">
+                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash">&nbsp;</i></button>
+                            </form>
+                        </td></tr>
+                        <%if (categories[i].children[j].children){
+                            for(var k=0; k< categories[i].children[j].children.length; k++){ %>
+                                <tr><td> |-- |-- <b><a href="category/<%= categories[i].children[j].children[k].slug %>"><%= categories[i].children[j].children[k].title %></a></b> 
+                                    
+                                    <form style="display: inline-block;" action="category/<%= categories[i].children[j].children[k]._id %>/delete" method="POST">
+                                            <input type="hidden" name="_csrf" value="<%= csrftoken %>">
+                                            <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash">&nbsp;</i></button>
+                                    </form>
+                                </td></tr>
+                            <% }
+                        } 
+                      }
+                    } 
+                } %>
+                </table>
+              </div>
+              <div class="col-sm-3">
+
+              </div>
+          </div>
+      </div>
+      
+      <% include ../partial/footer %>
+  </body>
+</html>

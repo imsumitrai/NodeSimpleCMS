@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+        <% include ../partial/header %>
+  </head>
+  <body>
+        <% include ../partial/navbar %>
+      <div class="container">
+          <div class="row">
+              <div class="col-sm-2">
+
+              </div>
+              <div class="col-sm-8">
+                <%if(messages.error){ %>
+                    <div class="alert alert-danger" role="alert">
+                        <%= messages.error %>
+                    </div>
+                    <% } %>
+                    <%if(messages.status){ %>
+                        <div class="alert alert-success" role="alert">
+                            <%= messages.status %>
+                        </div>
+                    <% } %>
+                  <br>
+                  <div class="row">
+                      <form action="" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="_csrf" value="<%= csrftoken %>">
+                            <label>Title</label>
+                            <input type="text" name="title" class="form-control"><br>
+                            <label>Select File</label><br>
+                            <input type="file" name="file"><br><br>
+                            <label>Alt Description</label>
+                            <textarea name="alt_description" class="form-control"></textarea>
+                            <br>
+                            <input type="submit" value="Upload Media" class="btn btn-primary">
+                      </form>
+                      <!-- <div class="ml-auto">
+                            <a href="categories/new" class="btn btn-primary btn-sm">New Category</a>
+                      </div> -->
+                  </div>
+                  <br>
+                    <% for(i=0; i< medias.length; i++) { %>
+                        <div class="col-sm-3">
+                            <form method="POST" action="media/<%= medias[i]._id %>/delete">
+                                <input type="hidden" name="_csrf" value="<%= csrftoken %>">
+                                <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                            </form>
+                            <img src="uploads/<%= medias[i].file %>" alt="<%= medias[i].alt_description %>" class="img-responsive">
+                            <h3><a href="media/<%= medias[i]._id %>"><%= medias[i].title %></a></h3>
+                        </div>
+                    <% } %>
+              </div>
+              <div class="col-sm-2">
+
+              </div>
+          </div>
+      </div>
+      
+      <% include ../partial/footer %>
+  </body>
+</html>

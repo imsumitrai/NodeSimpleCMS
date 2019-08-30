@@ -18,7 +18,7 @@ exports.savePost = (req, res, next) => {
     Post.findOne({slug: req.body.slug}, function(error, post){
         if(post){
             req.flash("error", "Post Already Exists");
-            res.redirect("/posts/new");
+            res.redirect(req.headers.referer);
             return;
         }else{
             var newPost = Post({
@@ -30,7 +30,7 @@ exports.savePost = (req, res, next) => {
             newPost.save(function(error){
                 if(error){
                     req.flash("error", err.message);
-                    res.redirect("new");
+                    res.redirect(req.headers.referer);
                     return;
                 }else{
                     res.redirect("/post/"+ newPost.slug);
@@ -47,7 +47,8 @@ exports.post = (req, res, next) => {
             res.render("posts/post", {title: post.title, post: post});
             return;
         }else{
-            res.redirect("/posts");
+            req.flash("error", "Post not Found");
+            res.redirect(req.headers.referer);
             return;
         }
     });
@@ -57,6 +58,8 @@ exports.updatePost = (req, res, next) => {
     Post.update({slug:req.params.slug}, {slug: req.body.slug, title: req.body.title, description: req.body.description}, function(error, post){
         if(error){
             req.flash("error", err.message);
+            res.redirect(req.headers.referer);
+            return;
         }
         req.flash("status", "Post Updated");
         res.redirect(req.body.slug); 

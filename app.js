@@ -1,20 +1,23 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
-var flash = require('express-flash');
-var logger = require('morgan');
-var csrf = require("csurf");
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const flash = require('express-flash');
+const logger = require('morgan');
+// const multer = require('multer');
+const csrf = require("csurf");
 const MongoStore = require('connect-mongo')(session); 
-var database = require('./config/database');
-var db = database.db;
-var mongoose = database.mongoose;
+const database = require('./config/database');
+const db = database.db;
+const mongoose = database.mongoose;
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var authRouter = require('./routes/auth');
 var postsRouter = require('./routes/posts');
+var mediasRouter = require('./routes/medias');
+var categoriesRouter = require('./routes/categories');
 var authMiddleware = require('./middleware/auth');
 
 var app = express();
@@ -44,7 +47,7 @@ app.use(session({
 }));
 
 app.use(flash());
-
+// app.use(multer());
 app.use(csrf());
 
 app.use(function (req, res, next) {
@@ -59,6 +62,8 @@ app.use(authMiddleware.auth);
 app.use('/', indexRouter);
 app.use('/', authRouter);
 app.use('/', usersRouter);
+app.use('/', categoriesRouter);
+app.use('/', mediasRouter);
 // app.use('/users', usersRouter);
 app.use('/', postsRouter);
 

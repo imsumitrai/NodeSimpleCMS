@@ -24,13 +24,13 @@ var PostSchema = new Schema({
     categories : [
         {
             type: Schema.Types.ObjectId,
-            ref: 'Categories'
+            ref: 'Category'
         }
     ],
     tags : [
         {
             type: Schema.Types.ObjectId,
-            ref: 'Tags'
+            ref: 'Tag'
         }
     ],    
 });
