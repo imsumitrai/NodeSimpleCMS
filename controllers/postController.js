@@ -29,7 +29,7 @@ exports.savePost = (req, res, next) => {
             });
             newPost.save(function(error){
                 if(error){
-                    req.flash("error", err.message);
+                    req.flash("error", error.message);
                     res.redirect(req.headers.referer);
                     return;
                 }else{

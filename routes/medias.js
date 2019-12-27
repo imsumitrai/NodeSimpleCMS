@@ -3,7 +3,7 @@ var router = express.Router();
 
 const csrf = require("csurf");
 
-// express().use(csrf());
+express().use(csrf());
 var multer = require('multer');
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -15,12 +15,12 @@ var storage = multer.diskStorage({
   });
 var upload = multer({ storage: storage });
 
-express().use(csrf());
-express().use(function (req, res, next) {
-    res.cookie('XSRF-TOKEN', req.csrfToken());
-    res.locals.csrftoken = req.csrfToken();
-    next();
-  });
+// express().use(csrf());
+// express().use(function (req, res, next) {
+//     res.cookie('XSRF-TOKEN', req.csrfToken());
+//     res.locals.csrftoken = req.csrfToken();
+//     next();
+//   });
 
 var mediaController = require("../controllers/mediaController");
 var authMiddleware = require("../middleware/auth");

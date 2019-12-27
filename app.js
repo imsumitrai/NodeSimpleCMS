@@ -50,10 +50,13 @@ app.use(flash());
 // app.use(multer());
 app.use(csrf());
 
+
+
 app.use(function (req, res, next) {
   res.cookie('XSRF-TOKEN', req.csrfToken());
   res.locals.csrftoken = req.csrfToken();
   res.locals.path = req.path;
+  // console.log(req.csrfToken());
   next();
 });
 
