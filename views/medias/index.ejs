@@ -23,7 +23,7 @@
                     <% } %>
                   <br>
                   <div class="row">
-                      <form action="" method="POST" enctype="multipart/form-data">
+                      <form action="medias?_csrf=<%= csrftoken %>" method="POST" enctype="multipart/form-data">
                             <input type="hidden" name="_csrf" value="<%= csrftoken %>">
                             <label>Title</label>
                             <input type="text" name="title" class="form-control"><br>
@@ -45,7 +45,7 @@
                                 <input type="hidden" name="_csrf" value="<%= csrftoken %>">
                                 <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
                             </form>
-                            <img src="uploads/<%= medias[i].file %>" alt="<%= medias[i].alt_description %>" class="img-responsive">
+                            <img src="uploads/<%= medias[i].file %>" alt="<%= medias[i].alt_description %>" class="img-thumbnail">
                             <h3><a href="media/<%= medias[i]._id %>"><%= medias[i].title %></a></h3>
                         </div>
                     <% } %>

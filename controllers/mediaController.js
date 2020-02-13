@@ -3,20 +3,20 @@ var Media = require('../models/media');
 
 exports.medias = (req, res, next) =>{
     Media.find({}, function(error, medias){
-        res.render('medias/index', { title: 'Medias', medias: medias});
+        res.render('medias/index', { title: 'Medias', medias: medias, csrftoken: req.csrfToken()});
     })
 }
 
 exports.saveMedia = (req, res, next) => {
     var newMedia = Media({
         author: req.session.userId,
-        file: req.file.path,
+        file: req.file.filename,
         title: req.body.title,
         alt_description: req.body.alt_description
     });
     newMedia.save(function(error){
         if(error){
-            req.flash("error", err.message);
+            req.flash("error", error.message);
             res.redirect(req.headers.referer);
             return;
         }else{
@@ -43,7 +43,7 @@ exports.media = (req, res, next) => {
 exports.updateMedia = (req, res, next) => {
     Media.findByIdAndUpdate(req.params.id, {title: req.body.title, alt_description: req.body.alt_description}, function(error, media){
         if(error){
-            req.flash("error", err.message);
+            req.flash("error", error.message);
             res.redirect(req.headers.referer);
             return;
         }
